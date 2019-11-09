@@ -87,7 +87,7 @@ Find:       <contacts.*?f=\\"(.*?)\\".*?</contacts>
 Replace:    ••• Contact sent: \\"$1\\" •••
 
 Find:       <topicupdate>.*?</topicupdate>				
-Replace:    ••• User changed the topic: \"тема\" •••
+Replace:    ••• User changed the topic: \"topic\" •••
 
 Manually check for any remaining tags
 -------------------------------------
