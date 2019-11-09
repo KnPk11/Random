@@ -1,0 +1,105 @@
+Clean-up and export Skype chat history
+
+v1.0
+
+Usage:
+================
+1) Download your skype chat history in a JSON format at https://secure.skype.com/en/data-export
+2) Download the skype-parser.zip and open in a browser
+3) Manually process the JSON file with the following find & replace statements (save a copy of the original just in case)
+4) Once done reload the file in your browser and you can now save one-off conversations as HTML (one page HTML savers are handy)
+
+
+REGEX STATEMENTS
+1) Run everything in Notepad++ without using the 'multiline' flag
+2) Substitute ••• with your choice of symbols to denote special actions
+3) Search for the HTML tags at the end of this list and manually clean them up - these are exceptions to the general rule
+===========================================================
+Find:       <URIObject.*?commerce\.skypemoney.*?>(.*?),.*?</URIObject>.*?(?=",)
+Replace:    ••• $1 •••
+
+Find:       <URIObject.*?<OriginalName v=\\"(.*?)\\".*?</URIObject>.*?(?=",)
+Replace:    ••• $1 •••
+
+Find:       <partlist type=\\"ended\\".*?<duration>(.*?)</duration>.*?</partlist>
+Replace:    ••• Call $1 seconds •••
+
+Find:       <partlist type=\\"ended\\".*?</partlist>
+Replace:    ••• Call •••
+
+Find:       <partlist type=\\"started\\".*?<name>(.*?)</name>.*?</partlist>
+Replace:    ••• Call from $1 •••
+
+Find:       <partlist type=\\"missed\\".*?<name>(.*?)</name>.*?</partlist>
+Replace:    ••• Missed call from $1 •••
+
+Find:       <ss type=\\"(.*?)\\">(.*?)</ss>
+Replace:    ••• $2 •••
+
+Find:       <a href=\\"(.*?)\\">(.*?)</a>
+Replace:    ••• $1 •••
+
+Find:       <e_m ts=\\"(\d+)\\" ts_ms=\\"(\d+)\\" a=\\"(.*?)\\" t=\\"(\d+)\\"/>
+Replace:    \\r\\n••• Message changed •••
+
+Find:       <e_m a=.*?</e_m>
+Replace:    \\r\\n••• Message changed •••
+
+Find:       &#39;
+Replace:    '
+
+Find:       &apos;
+Replace:    '
+
+Find:       &quot;
+Replace:    \"
+
+Find:       &amp;
+Replace:    &
+
+Find:       <b raw_pre=\\"\*\\" raw_post=\\"\*\\">(.*?)</b>
+Replace:    <b>$1</b>
+
+Find:       <i raw_pre="_" raw_post="_">(.*?)</i>
+Replace:    <i>$1</i>
+
+Find:       <s raw_pre=\\"~\\" raw_post=\\"~\\">(.*?)</s>
+Replace:    <s>$1</s>
+
+Find:       <context suggestionId=.*?</context>
+Replace:    (replace with empty space - not sure what this is)
+
+Find:       <joiningenabledupdate>.*?</joiningenabledupdate>
+Replace:    (replace with empty space - not sure what this is)
+
+Find:       <quote author=.*?authorname=\\"(.*?)\\".*?</legacyquote>(.*?)<legacyquote>.*?</quote>(.*?)(?=")
+Replace:    ••• Quote from $1:\\r\\n\\"$2\\" •••\\r\\n\\r\\n$3
+
+Replace manually on a case-by-case basis
+-------------------------------------
+Find:       <addmember.*?<initiator>\d:(.*?)</initiator><target>\d:(.*?)</target>(.*?)</addmember>
+Replace:    ••• $1 added $2, $3 •••
+
+Find:       <deletemember>.*?<initiator>\d:(.*?)</initiator><target>\d:(.*?)</target></deletemember>
+Replace:    ••• $1 left the chat •••
+
+Find:       <contacts.*?f=\\"(.*?)\\".*?</contacts>
+Replace:    ••• Contact sent: \\"$1\\" •••
+
+Find:       <topicupdate>.*?</topicupdate>				
+Replace:    ••• User changed the topic: \"тема\" •••
+
+Manually check for any remaining tags
+-------------------------------------
+<URIObject
+<partlist
+<ss type
+<a href
+<e_m ts
+<. raw
+<quote author
+<addmember
+	<target
+<contacts
+<topicupdate
+"content": "<
